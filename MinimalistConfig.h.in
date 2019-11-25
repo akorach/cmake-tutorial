@@ -1,0 +1,5 @@
+// The configured options and settings for Minimalist
+#define Minimalist_VERSION_MAJOR @Minimalist_VERSION_MAJOR@
+#define Minimalist_VERSION_MINOR @Minimalist_VERSION_MINOR@
+
+#cmakedefine USE_MYMATH
