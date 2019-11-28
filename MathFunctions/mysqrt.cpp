@@ -1,3 +1,4 @@
+#include "Table.h"
 #include <iostream>
 
 namespace MathFunctions {
@@ -10,6 +11,10 @@ double mysqrt(double x)
     }
 
     double result = x;
+    if (x >=1 && x < 10) {
+        std::cout << "Use the table to help find an initial value " << std::endl;
+        result = sqrtTable[static_cast<int>(x)];
+    }
 
     // do ten iterations
     for (int i = 0; i < 10; ++i) {
