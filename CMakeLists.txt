@@ -63,7 +63,7 @@ include(CPack)
 # testing
 # ----------------------------------------------------------------------------------------------------------------------
 
-enable_testing()
+include(CTest)
 
 # Does the application run?
 # NAME - test name
