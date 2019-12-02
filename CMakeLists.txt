@@ -50,7 +50,14 @@ target_include_directories(${PROJECT} PUBLIC "${PROJECT_BINARY_DIR}") # Q: Why i
 
 # allows for installing the project in a set location
 install(TARGETS ${PROJECT} DESTINATION bin)
-install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
+install(FILES "${PROJECT_BINARY_DIR}/MinimalistConfig.h" DESTINATION include)
+
+# use CPack to build an installer
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
+set(CPACK_PACKAGE_VERSION_MAJOR "${Minimalist_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${Minimalist_VERSION_MINOR}")
+include(CPack)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # testing
