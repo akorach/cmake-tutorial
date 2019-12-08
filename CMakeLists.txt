@@ -12,14 +12,21 @@ project(${PROJECT} VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
+# control where the static and shared libraries are built so that on windows
+# we don't need to tinker with the path to run the executable
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+
 # ----------------------------------------------------------------------------------------------------------------------
 # options
 # ----------------------------------------------------------------------------------------------------------------------
 
 # How options work:
 # When an option line is added, it will be visible to the cmake system, including the GUI, and also in QtCreator
-# To make it visible in the source code, we need to add it to the config file by writing #cmakedefine USE_MYMATH
-option(USE_MYMATH "Use tutorial provided math implementation" ON)
+# To make it visible in the source code, we need to add it to the config file by writing #cmakedefine OPT_NAME
+
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 # config file: needed for passing the version number and options to the source code; Q: How do we do it at NI?
 configure_file(MinimalistConfig.h.in MinimalistConfig.h)
@@ -28,20 +35,19 @@ configure_file(MinimalistConfig.h.in MinimalistConfig.h)
 # target setup
 # ----------------------------------------------------------------------------------------------------------------------
 
-if(USE_MYMATH)
-    # add the MathFunctions library
-    add_subdirectory(MathFunctions)
-    list(APPEND EXTRA_LIBS MathFunctions)
-endif()
+# Add the MathFunctions library.
+# Includes the text of the lower-level CMakeList.
+add_subdirectory(MathFunctions)
 
 add_executable(${PROJECT} main.cpp)
 
-# link libraries - we have to define an executable earlier for this to work
-target_link_libraries(${PROJECT} PUBLIC ${EXTRA_LIBS})
+# Link libraries to a target.
+# Tells cmake where to look for source files of linked libs and fulfills usage reqirements of these libs.
+# The used target must have been created before
+target_link_libraries(${PROJECT} PUBLIC MathFunctions)
 
-# add the binary dir to the search path for include files, so that we will find the project config file
-# add the library dir to the search path for include files
-# comes after add_executable
+# Add the binary dir to the search path for include files, so that we will find the project config file.
+# The used target must have been created before
 target_include_directories(${PROJECT} PUBLIC "${PROJECT_BINARY_DIR}") # Q: Why is bin dir in ""?
 
 # ----------------------------------------------------------------------------------------------------------------------
