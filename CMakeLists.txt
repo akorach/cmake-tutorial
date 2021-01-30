@@ -28,7 +28,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-# config file: needed for passing the version number and options to the source code; Q: How do we do it at NI?
+# config file: needed for passing the version number and options to the source code
 configure_file(MinimalistConfig.h.in MinimalistConfig.h)
 
 # ----------------------------------------------------------------------------------------------------------------------
